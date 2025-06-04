@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-    max-width: 700px;
+    max-width: 750px;
     margin: 20px auto;
     background-color: #fff;
     padding: 25px;
@@ -23,19 +23,9 @@ header {
     padding-bottom: 15px;
 }
 
-header h1 {
-    color: #2c3e50;
-    margin-bottom: 5px;
-}
-
-.brand {
-    font-size: 0.9em;
-    color: #7f8c8d;
-}
-
-h2, h3 {
-    color: #34495e;
-}
+header h1 { color: #2c3e50; margin-bottom: 5px; }
+.brand { font-size: 0.9em; color: #7f8c8d; }
+h2, h3 { color: #34495e; }
 
 button {
     padding: 10px 18px;
@@ -48,24 +38,25 @@ button {
     font-size: 1em;
     transition: background-color 0.2s ease;
 }
+button:hover { background-color: #2980b9; }
+button:disabled { background-color: #bdc3c7; cursor: not-allowed; }
 
-button:hover {
-    background-color: #2980b9;
-}
+#connectionControls { text-align: center; margin-bottom: 20px; }
+#connectButton { background-color: #2ecc71; }
+#connectButton:hover { background-color: #27ae60; }
+#disconnectButton { background-color: #e74c3c; }
+#disconnectButton:hover { background-color: #c0392b; }
 
-button:disabled {
-    background-color: #bdc3c7;
-    cursor: not-allowed;
-}
 
-#connectButton {
-    display: block;
-    margin: 15px auto;
-    background-color: #2ecc71;
+#deviceInfo, #espChipDetails {
+    background-color: #eaf2f8;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4e6f1;
 }
-#connectButton:hover {
-    background-color: #27ae60;
-}
+#deviceInfo p, #espChipDetails p { margin: 5px 0; font-size: 0.95em; }
+#deviceInfo strong, #espChipDetails strong { color: #2c3e50; }
 
 .firmware-option {
     background-color: #ecf0f1;
@@ -74,23 +65,43 @@ button:disabled {
     border-radius: 5px;
     border: 1px solid #dadedf;
 }
+.firmware-option p { margin-top: 0; }
+.flash-button { background-color: #e67e22; }
+.flash-button:hover { background-color: #d35400; }
+#resetEspButton { background-color: #9b59b6; margin-top:10px;}
+#resetEspButton:hover { background-color: #8e44ad; }
 
-.firmware-option p {
-    margin-top: 0;
-}
 
-.flash-button {
-    background-color: #e67e22;
+#serialMonitorSection { margin-top: 20px; }
+#serialMonitorOutput {
+    white-space: pre-wrap;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+    border: 1px solid #333;
+    margin: 10px 0;
 }
-.flash-button:hover {
-    background-color: #d35400;
+#serialMonitorSection input[type="text"],
+#serialMonitorSection input[type="number"] {
+    padding: 8px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
+.send-controls { display: flex; align-items: center; gap: 10px; }
+.send-controls input[type="text"] { flex-grow: 1; }
 
 
 #log {
     white-space: pre-wrap;
-    background-color: #2c3e50; /* Darker background for log */
-    color: #ecf0f1; /* Lighter text for log */
+    background-color: #2c3e50;
+    color: #ecf0f1;
     padding: 15px;
     border-radius: 5px;
     min-height: 100px;
@@ -99,41 +110,18 @@ button:disabled {
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     font-size: 0.85em;
     border: 1px solid #34495e;
+    margin-top: 20px;
 }
 
-.hidden {
-    display: none !important;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background-color: #ddd;
-    margin: 20px 0;
-}
+.hidden { display: none !important; }
+hr { border: 0; height: 1px; background-color: #ddd; margin: 25px 0; }
 
 footer {
     text-align: center;
     margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
     font-size: 0.8em;
-    color: #95a5a6;
+    color: #7f8c8d;
 }
-
-/* For progress bar (optional, can be added later) */
-.progress-bar-container {
-    width: 100%;
-    background-color: #ddd;
-    border-radius: 4px;
-    margin: 10px 0;
-}
-.progress-bar {
-    width: 0%;
-    height: 20px;
-    background-color: #4CAF50;
-    text-align: center;
-    line-height: 20px;
-    color: white;
-    border-radius: 4px;
-    transition: width 0.1s ease-out;
-}
-</style>
+footer p { margin: 5px 0; }
