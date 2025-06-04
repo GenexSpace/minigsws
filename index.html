@@ -10,31 +10,51 @@
     <div class="container">
         <header>
             <h1>Mini GS Firmware Flasher</h1>
-            <p class="brand">Website by Genex Space</p>
+            <p class="brand">by Genex Space</p>
         </header>
 
         <section id="instructions">
             <h2>Instructions:</h2>
             <ol>
                 <li>Connect your Mini GS (ESP32) to your computer via USB.</li>
+                <li>Click "Connect to ESP32" below and select the serial port for your device.</li>
                 <li>
-                    Put your ESP32 into Bootloader/Flashing mode:
+                    <strong>For Flashing:</strong>
                     <ul>
-                        <li>Hold down the <strong>BOOT/FLASH</strong> button (usually GPIO0).</li>
-                        <li>While holding BOOT, press and release the <strong>RESET/EN</strong> button.</li>
-                        <li>Release the BOOT/FLASH button.</li>
-                        <li><em>(Alternatively, some boards auto-reset into bootloader mode when the flasher connects.)</em></li>
+                        <li>Ensure the ESP32 is in Bootloader/Flashing mode (hold BOOT, press/release RESET, release BOOT).</li>
+                        <li>The flasher will attempt an auto-reset; manual mode is a reliable backup.</li>
+                        <li>Select a firmware and click its "Flash" button.</li>
                     </ul>
                 </li>
-                <li>Click "Connect to ESP32" below and select the serial port for your device.</li>
-                <li>Once connected, choose a firmware and click its "Flash" button.</li>
+                <li>
+                    <strong>For Serial Monitor:</strong>
+                    <ul>
+                        <li>Ensure your ESP32 is running application firmware that outputs serial data.</li>
+                        <li>Set the correct baud rate and click "Start Monitor".</li>
+                    </ul>
+                </li>
             </ol>
         </section>
 
-        <section id="controls">
+        <section id="connectionControls">
             <button id="connectButton">Connect to ESP32</button>
-            <div id="firmwareActions" class="hidden">
-                <h3>Select Firmware to Flash:</h3>
+            <button id="disconnectButton" class="hidden">Disconnect</button>
+        </section>
+
+        <div id="mainInterface" class="hidden">
+            <section id="deviceInfo">
+                <h3>Connected Port Information:</h3>
+                <p><strong>Port:</strong> <span id="serialPortName">-</span> (VID: <span id="usbVid">-</span>, PID: <span id="usbPid">-</span>)</p>
+                <div id="espChipDetails" class="hidden">
+                    <p><strong>ESP Chip:</strong> <span id="espChipName">-</span></p>
+                    <p><strong>MAC Address:</strong> <span id="espMacAddress">-</span></p>
+                    <p><strong>Features:</strong> <span id="espFeatures">-</span></p>
+                </div>
+            </section>
+            <hr>
+            <section id="flasherSection">
+                <h3>Firmware Flashing</h3>
+                <p>Ensure device is in bootloader mode before flashing.</p>
                 <div class="firmware-option">
                     <p><strong>Test LED Firmware:</strong> A simple LED blinking test.</p>
                     <button class="flash-button" data-firmware="testled.bin" data-name="Test LED">Flash Test LED</button>
@@ -47,11 +67,24 @@
                     <p><strong>TinyGS Main Firmware:</strong> The primary TinyGS application.</p>
                     <button class="flash-button" data-firmware="tinygs.bin" data-name="TinyGS">Flash TinyGS</button>
                 </div>
-                <hr>
-                <button id="disconnectButton">Disconnect</button>
-                <button id="resetButton" class="hidden">Reset Device</button>
-            </div>
-        </section>
+                <button id="resetEspButton" class="hidden">Reset ESP32 (after flash)</button>
+            </section>
+            <hr>
+            <section id="serialMonitorSection">
+                <h3>Serial Monitor</h3>
+                <p>
+                    Baud Rate: <input type="number" id="serialMonitorBaudRate" value="115200" style="width: 80px;">
+                    <button id="startSerialMonitorButton">Start Monitor</button>
+                    <button id="stopSerialMonitorButton" disabled>Stop Monitor</button>
+                </p>
+                <pre id="serialMonitorOutput"></pre>
+                <div class="send-controls">
+                    <input type="text" id="serialSendCommand" placeholder="Send data to ESP32">
+                    <button id="serialSendButton" disabled>Send</button>
+                    <label><input type="checkbox" id="sendNewlineCheckbox" checked> Append Newline (\n)</label>
+                </div>
+            </section>
+        </div>
 
         <section id="logging">
             <h3>Log:</h3>
@@ -60,12 +93,13 @@
 
         <footer>
             <p>Using Web Serial API. Ensure you are on an HTTPS connection and using a compatible browser (Chrome, Edge).</p>
+            <p>© <span id="currentYear"></span> Genex Space. All rights reserved.</p>
         </footer>
     </div>
 
     <!-- esptool-js and its dependency CryptoJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://unpkg.com/esptool-js@0.3.2/bundle.js"></script> <!-- Check for latest version -->
+    <script src="https://unpkg.com/esptool-js@0.3.2/bundle.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
