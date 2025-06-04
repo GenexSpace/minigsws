@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini GS Firmware Flasher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mini GS Firmware Flasher</h1>
+            <p class="brand">Website by Genex Space</p>
+        </header>
+
+        <section id="instructions">
+            <h2>Instructions:</h2>
+            <ol>
+                <li>Connect your Mini GS (ESP32) to your computer via USB.</li>
+                <li>
+                    Put your ESP32 into Bootloader/Flashing mode:
+                    <ul>
+                        <li>Hold down the <strong>BOOT/FLASH</strong> button (usually GPIO0).</li>
+                        <li>While holding BOOT, press and release the <strong>RESET/EN</strong> button.</li>
+                        <li>Release the BOOT/FLASH button.</li>
+                        <li><em>(Alternatively, some boards auto-reset into bootloader mode when the flasher connects.)</em></li>
+                    </ul>
+                </li>
+                <li>Click "Connect to ESP32" below and select the serial port for your device.</li>
+                <li>Once connected, choose a firmware and click its "Flash" button.</li>
+            </ol>
+        </section>
+
+        <section id="controls">
+            <button id="connectButton">Connect to ESP32</button>
+            <div id="firmwareActions" class="hidden">
+                <h3>Select Firmware to Flash:</h3>
+                <div class="firmware-option">
+                    <p><strong>Test LED Firmware:</strong> A simple LED blinking test.</p>
+                    <button class="flash-button" data-firmware="testled.bin" data-name="Test LED">Flash Test LED</button>
+                </div>
+                <div class="firmware-option">
+                    <p><strong>LoRa Test Firmware:</strong> For testing LoRa communication.</p>
+                    <button class="flash-button" data-firmware="LoraTest.bin" data-name="LoRa Test">Flash LoRa Test</button>
+                </div>
+                <div class="firmware-option">
+                    <p><strong>TinyGS Main Firmware:</strong> The primary TinyGS application.</p>
+                    <button class="flash-button" data-firmware="tinygs.bin" data-name="TinyGS">Flash TinyGS</button>
+                </div>
+                <hr>
+                <button id="disconnectButton">Disconnect</button>
+                <button id="resetButton" class="hidden">Reset Device</button>
+            </div>
+        </section>
+
+        <section id="logging">
+            <h3>Log:</h3>
+            <pre id="log"></pre>
+        </section>
+
+        <footer>
+            <p>Using Web Serial API. Ensure you are on an HTTPS connection and using a compatible browser (Chrome, Edge).</p>
+        </footer>
+    </div>
+
+    <!-- esptool-js and its dependency CryptoJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://unpkg.com/esptool-js@0.3.2/bundle.js"></script> <!-- Check for latest version -->
+    <script src="script.js"></script>
+</body>
+</html>
