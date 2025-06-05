@@ -97,9 +97,10 @@
         </footer>
     </div>
 
-    <!-- esptool-js and its dependency CryptoJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://unpkg.com/esptool-js@0.3.2/bundle.js"></script>
-    <script src="script.js"></script>
+<!-- CryptoJS -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- ESPLoader from esp-web-tools (this is a UMD bundle) -->
+    <script defer src="https://unpkg.com/esp-web-tools@9.4.3/dist/web/esptool.js"></script>
+    <script defer src="script.js"></script>
 </body>
 </html>
