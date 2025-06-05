@@ -93,7 +93,7 @@ function updateUiForSerialMonitorActive(isActive) {
     serialSendButton.disabled = !isActive;
     // Disable flashing while monitor is active
     flashButtons.forEach(btn => btn.disabled = isActive);
-    resetEspButton.classList.add('hidden'); // Hide reset button when monitor starts/stops
+    resetEspButton.classList.add('hidden');
 }
 
 function populateSerialPortInfo(portInfo) {
@@ -180,11 +180,11 @@ flashButtons.forEach(button => {
         try {
             logMsg('Initializing flasher... Ensure ESP32 is in bootloader mode.');
             // ESPLoader's Transport will open the port.
-            transport = new ESPLoader.Transport(device, true); // true for slip_reader_enabled
-            
+            transport = new ESPLoaderLib.Transport(device, true); // true for slip_reader_enabled
+
             const flashBaudRate = parseInt(prompt("Enter Baud Rate for flashing (e.g., 460800, 921600):", "460800"), 10) || 460800;
 
-            esploader = new ESPLoader.ESPLoader({
+            esploader = new ESPLoaderLib.ESPLoader({
                 transport,
                 baudrate: flashBaudRate,
                 romBaudrate: 115200,
@@ -250,8 +250,8 @@ resetEspButton.addEventListener('click', async () => {
     // This re-initializes transport/esploader briefly to send a reset.
     // This is because `esploader.hardReset()` needs an active connection.
     try {
-        const tempTransport = new ESPLoader.Transport(device, true);
-        const tempEsploader = new ESPLoader.ESPLoader({
+        const tempTransport = new ESPLoaderLib.Transport(device, true);
+        const tempEsploader = new ESPLoaderLib.ESPLoader({
             transport: tempTransport,
             baudrate: 115200, // Baud rate doesn't matter much for just reset
             log: (...args) => logMsg(args.join(' ')),
@@ -297,6 +297,7 @@ startSerialMonitorButton.addEventListener('click', async () => {
         keepSerialReading = true;
         serialReader = device.readable.getReader();
         serialWriter = device.writable.getWriter();
+        serialSendButton.disabled = false;
 
         // Start read loop
         readLoop();
@@ -304,6 +305,7 @@ startSerialMonitorButton.addEventListener('click', async () => {
         logMsg(`Serial Monitor: Error opening port: ${e.message || e}`);
         updateUiForSerialMonitorActive(false);
         if (device && device.readable) await device.close(); // Ensure port is closed on error
+        serialSendButton.disabled = true;
     }
 });
 
@@ -322,6 +324,7 @@ async function readLoop() {
         } catch (error) {
             logMsg(`Serial Monitor: Read error: ${error.message || error}`);
             await stopSerialMonitorLogic(true); // Stop and close on error
+            serialSendButton.disabled = true;
             break;
         }
     }
@@ -334,6 +337,7 @@ async function stopSerialMonitorLogic(shouldClosePort) {
 
     keepSerialReading = false; // Signal readLoop to stop
     updateUiForSerialMonitorActive(false);
+    serialSendButton.disabled = true;
 
     if (serialReader) {
         try {
