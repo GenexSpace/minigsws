@@ -5,102 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini GS Firmware Flasher</title>
     <link rel="stylesheet" href="style.css">
+    <script 
+        type="module" 
+        src="https://unpkg.com/esp-web-tools@9.4.3/dist/web/install-button.js?module"
+    ></script>
 </head>
 <body>
-    <div class="container">
+
+    <main>
         <header>
             <h1>Mini GS Firmware Flasher</h1>
-            <p class="brand">by Genex Space</p>
+            <p class="byline">by Genex Space</p>
         </header>
 
-        <section id="instructions">
-            <h2>Instructions:</h2>
+        <section class="card">
+            <h3>Instructions</h3>
             <ol>
-                <li>Connect your Mini GS (ESP32) to your computer via USB.</li>
-                <li>Click "Connect to ESP32" below and select the serial port for your device.</li>
+                <li>Connect your ESP32 device to your computer via USB.</li>
                 <li>
-                    <strong>For Flashing:</strong>
-                    <ul>
-                        <li>Ensure the ESP32 is in Bootloader/Flashing mode (hold BOOT, press/release RESET, release BOOT).</li>
-                        <li>The flasher will attempt an auto-reset; manual mode is a reliable backup.</li>
-                        <li>Select a firmware and click its "Flash" button.</li>
-                    </ul>
+                    <strong>To Flash:</strong> Put the device into bootloader mode. For most devices, hold <strong>BOOT</strong>, press and release <strong>RESET</strong>, then release <strong>BOOT</strong>.
                 </li>
+                <li>Select a firmware option and click the "INSTALL" button that appears.</li>
                 <li>
-                    <strong>For Serial Monitor:</strong>
-                    <ul>
-                        <li>Ensure your ESP32 is running application firmware that outputs serial data.</li>
-                        <li>Set the correct baud rate and click "Start Monitor".</li>
-                    </ul>
+                    <strong>To Monitor:</strong> After flashing, use the "Serial Monitor" section below to connect and view device logs. Ensure you select the correct baud rate.
                 </li>
             </ol>
         </section>
 
-        <section id="connectionControls">
-            <button id="connectButton">Connect to ESP32</button>
-            <button id="disconnectButton" class="hidden">Disconnect</button>
+        <section class="card">
+            <h3>Select Firmware</h3>
+            <div class="firmware-options">
+                <div class="option">
+                    <input type="radio" id="fw_testled" name="firmware" value="testled" checked>
+                    <label for="fw_testled">Test LED Firmware</label>
+                    <p class="description">A simple firmware to blink the onboard LED. Useful for a basic hardware check.</p>
+                </div>
+                <div class="option">
+                    <input type="radio" id="fw_loratest" name="firmware" value="loratest">
+                    <label for="fw_loratest">LoRa Test Firmware</label>
+                    <p class="description">Tests the LoRa module communication and prints results to the serial monitor.</p>
+                </div>
+                <div class="option">
+                    <input type="radio" id="fw_tinygs" name="firmware" value="tinygs">
+                    <label for="fw_tinygs">TinyGS Main Firmware</label>
+                    <p class="description">The official TinyGS firmware for connecting your ground station to the network.</p>
+                </div>
+            </div>
         </section>
 
-        <div id="mainInterface" class="hidden">
-            <section id="deviceInfo">
-                <h3>Connected Port Information:</h3>
-                <p><strong>Port:</strong> <span id="serialPortName">-</span> (VID: <span id="usbVid">-</span>, PID: <span id="usbPid">-</span>)</p>
-                <div id="espChipDetails" class="hidden">
-                    <p><strong>ESP Chip:</strong> <span id="espChipName">-</span></p>
-                    <p><strong>MAC Address:</strong> <span id="espMacAddress">-</span></p>
-                    <p><strong>Features:</strong> <span id="espFeatures">-</span></p>
-                </div>
-            </section>
-            <hr>
-            <section id="flasherSection">
-                <h3>Firmware Flashing</h3>
-                <p>Ensure device is in bootloader mode before flashing.</p>
-                <div class="firmware-option">
-                    <p><strong>Test LED Firmware:</strong> A simple LED blinking test.</p>
-                    <button class="flash-button" data-firmware="testled.bin" data-name="Test LED">Flash Test LED</button>
-                </div>
-                <div class="firmware-option">
-                    <p><strong>LoRa Test Firmware:</strong> For testing LoRa communication.</p>
-                    <button class="flash-button" data-firmware="LoraTest.bin" data-name="LoRa Test">Flash LoRa Test</button>
-                </div>
-                <div class="firmware-option">
-                    <p><strong>TinyGS Main Firmware:</strong> The primary TinyGS application.</p>
-                    <button class="flash-button" data-firmware="tinygs.bin" data-name="TinyGS">Flash TinyGS</button>
-                </div>
-                <button id="resetEspButton" class="hidden">Reset ESP32 (after flash)</button>
-            </section>
-            <hr>
-            <section id="serialMonitorSection">
-                <h3>Serial Monitor</h3>
-                <p>
-                    Baud Rate: <input type="number" id="serialMonitorBaudRate" value="115200" style="width: 80px;">
-                    <button id="startSerialMonitorButton">Start Monitor</button>
-                    <button id="stopSerialMonitorButton" disabled>Stop Monitor</button>
-                </p>
-                <pre id="serialMonitorOutput"></pre>
-                <div class="send-controls">
-                    <input type="text" id="serialSendCommand" placeholder="Send data to ESP32">
-                    <button id="serialSendButton" disabled>Send</button>
-                    <label><input type="checkbox" id="sendNewlineCheckbox" checked> Append Newline (\n)</label>
-                </div>
-            </section>
-        </div>
-
-        <section id="logging">
-            <h3>Log:</h3>
-            <pre id="log"></pre>
+        <section class="flasher-area">
+            <esp-web-install-button id="espWebInstallButton"></esp-web-install-button>
         </section>
 
-        <footer>
-            <p>Using Web Serial API. Ensure you are on an HTTPS connection and using a compatible browser (Chrome, Edge).</p>
-            <p>© <span id="currentYear"></span> Genex Space. All rights reserved.</p>
-        </footer>
-    </div>
+        <!-- NEW: Serial Monitor Section -->
+        <section class="card">
+            <h3>Serial Monitor</h3>
+            <div class="serial-controls">
+                <button id="button-connect-serial">Connect</button>
+                <button id="button-disconnect-serial" disabled>Disconnect</button>
+                <label for="baudrate-select">Baud Rate:</label>
+                <select id="baudrate-select">
+                    <option value="9600">9600</option>
+                    <option value="57600">57600</option>
+                    <option value="115200" selected>115200</option>
+                </select>
+                <button id="button-clear-log">Clear Log</button>
+            </div>
+            <pre id="log-output"></pre>
+        </section>
+        
+    </main>
 
-<!-- CryptoJS -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <!-- ESPLoader from esp-web-tools (this is a UMD bundle) -->
-    <script defer src="https://unpkg.com/esp-web-tools@9.4.3/dist/web/esptool.js"></script>
-    <script defer src="script.js"></script>
+    <footer>
+       
+        <p>© <span id="currentYear"></span> Genex Space. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Flasher Button Logic ---
+            const installButton = document.getElementById('espWebInstallButton');
+            const firmwareRadios = document.querySelectorAll('input[name="firmware"]');
+
+            const updateFlasher = (selectedValue) => {
+                if (selectedValue) {
+                    installButton.manifest = `./firmware/manifest_${selectedValue}.json`;
+                    installButton.style.display = 'inline-block';
+                } else {
+                    installButton.style.display = 'none';
+                }
+            };
+            
+            firmwareRadios.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    updateFlasher(event.target.value);
+                });
+            });
+
+            const initiallyChecked = document.querySelector('input[name="firmware"]:checked');
+            if (initiallyChecked) {
+                updateFlasher(initiallyChecked.value);
+            }
+
+            // --- Copyright Year ---
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // --- NEW: Serial Monitor Logic ---
+            const connectButton = document.getElementById('button-connect-serial');
+            const disconnectButton = document.getElementById('button-disconnect-serial');
+            const clearButton = document.getElementById('button-clear-log');
+            const baudRateSelect = document.getElementById('baudrate-select');
+            const logOutput = document.getElementById('log-output');
+
+            let port;
+            let reader;
+            let keepReading = true;
+
+            const connectSerial = async () => {
+                try {
+                    port = await navigator.serial.requestPort();
+                    await port.open({ baudRate: parseInt(baudRateSelect.value) });
+                    
+                    keepReading = true;
+                    connectButton.disabled = true;
+                    disconnectButton.disabled = false;
+                    baudRateSelect.disabled = true;
+                    logOutput.textContent = 'Connected. Waiting for data...\n';
+
+                    readUntilClosed();
+                } catch (error) {
+                    logOutput.textContent = `Error: ${error.message}\n`;
+                }
+            };
+
+            const disconnectSerial = async () => {
+                keepReading = false;
+                if (reader) {
+                    await reader.cancel();
+                }
+                if (port) {
+                    await port.close();
+                    port = undefined;
+                }
+                
+                connectButton.disabled = false;
+                disconnectButton.disabled = true;
+                baudRateSelect.disabled = false;
+                logOutput.textContent += 'Disconnected.\n';
+            };
+
+            const readUntilClosed = async () => {
+                const decoder = new TextDecoder();
+                while (port.readable && keepReading) {
+                    reader = port.readable.getReader();
+                    try {
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) {
+                                break; // The reader has been cancelled.
+                            }
+                            const text = decoder.decode(value, { stream: true });
+                            logOutput.textContent += text;
+                            logOutput.scrollTop = logOutput.scrollHeight; // Auto-scroll
+                        }
+                    } catch (error) {
+                        logOutput.textContent += `\n[ERROR] ${error.message}\n`;
+                    } finally {
+                        reader.releaseLock();
+                    }
+                }
+                // This part is reached when the port is closed or an error occurs.
+                // We ensure a clean disconnect.
+                if (port) {
+                    await disconnectSerial();
+                }
+            };
+
+            const clearLog = () => {
+                logOutput.textContent = '';
+            };
+
+            connectButton.addEventListener('click', connectSerial);
+            disconnectButton.addEventListener('click', disconnectSerial);
+            clearButton.addEventListener('click', clearLog);
+
+            // Handle accidental disconnection (e.g., USB unplugged)
+            navigator.serial.addEventListener('disconnect', (event) => {
+                if (port && port === event.target) {
+                    disconnectSerial();
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

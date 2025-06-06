@@ -1,0 +1,13 @@
+{
+  "name": "LoRa Test Firmware",
+  "version": "1.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "lora_test.bin", "offset": 65536 }
+      ]
+    }
+  ]
+}

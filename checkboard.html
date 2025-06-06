@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Diagnostic Tool - Mini GS</title>
+    <link rel="stylesheet" href="style.css">
+    <script 
+        type="module" 
+        src="https://unpkg.com/esp-web-tools@9.4.3/dist/web/install-button.js?module"
+    ></script>
+</head>
+<body>
+
+    <main>
+        <header>
+            <h1>Hardware Diagnostic Tool</h1>
+            <p class="byline">by Genex Space</p>
+        </header>
+
+        <section class="card">
+            <h3>How to Use</h3>
+            <ol>
+                <li><strong>Flash the Board:</strong> Click the "INSTALL DIAGNOSTIC FIRMWARE" button below to flash the board with the test sketch.</li>
+                <li>After flashing is complete, press the <strong>RESET/EN</strong> button on your ESP32.</li>
+                <li><strong>Run Test:</strong> Click the "CONNECT & RUN TEST" button in the "Diagnostic Results" section.</li>
+                <li>The results for the LED and LoRa module will appear below.</li>
+            </ol>
+        </section>
+
+        <!-- Flasher Section -->
+        <section class="card flasher-area">
+             <h3>Step 1: Flash Firmware</h3>
+             <esp-web-install-button manifest="firmware/manifest_board_test.json">
+                <span slot="button">INSTALL DIAGNOSTIC FIRMWARE</span>
+            </esp-web-install-button>
+        </section>
+
+        <!-- Diagnostic Results Section -->
+        <section class="card">
+            <h3>Step 2: Diagnostic Results</h3>
+            <div class="serial-controls">
+                <button id="button-connect-serial">Connect & Run Test</button>
+                <button id="button-disconnect-serial" disabled>Disconnect</button>
+                <button id="button-reset-test">Reset Test</button>
+            </div>
+            <ul class="diagnostic-list">
+                <li class="diagnostic-item">
+                    <span id="led-icon" class="status-icon"></span>
+                    <span>Onboard LED Test</span>
+                    <span id="led-status" class="status-text">Pending...</span>
+                </li>
+                <li class="diagnostic-item">
+                    <span id="lora-icon" class="status-icon"></span>
+                    <span>LoRa Module Test</span>
+                    <span id="lora-status" class="status-text">Pending...</span>
+                </li>
+            </ul>
+            <h4>Live Serial Log:</h4>
+            <pre id="log-output"></pre>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Genex Space. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- UI Elements ---
+            const connectButton = document.getElementById('button-connect-serial');
+            const disconnectButton = document.getElementById('button-disconnect-serial');
+            const resetButton = document.getElementById('button-reset-test');
+            const logOutput = document.getElementById('log-output');
+
+            const ledIcon = document.getElementById('led-icon');
+            const ledStatus = document.getElementById('led-status');
+            const loraIcon = document.getElementById('lora-icon');
+            const loraStatus = document.getElementById('lora-status');
+
+            let port;
+            let reader;
+            let keepReading = true;
+            let lineBuffer = '';
+
+            // --- Test State Management ---
+            const resetTestState = () => {
+                logOutput.textContent = '';
+
+                [ledIcon, loraIcon].forEach(icon => {
+                    icon.classList.remove('pass', 'fail');
+                });
+                ledStatus.textContent = 'Pending...';
+                loraStatus.textContent = 'Pending...';
+            };
+
+            // --- Serial Logic ---
+            const connectSerial = async () => {
+                try {
+                    port = await navigator.serial.requestPort();
+                    await port.open({ baudRate: 115200 });
+                    
+                    keepReading = true;
+                    connectButton.disabled = true;
+                    disconnectButton.disabled = false;
+                    resetButton.disabled = true;
+
+                    logOutput.textContent = 'Connected. Reset your ESP32 board to start the test...\n';
+                    
+                    readUntilClosed();
+                } catch (error) {
+                    logOutput.textContent = `Connection Error: ${error.message}\n`;
+                }
+            };
+
+            const disconnectSerial = async () => {
+                keepReading = false;
+                if (reader) {
+                    await reader.cancel().catch(() => {}); // Ignore cancel error
+                }
+                if (port) {
+                    await port.close().catch(() => {});
+                    port = undefined;
+                }
+                
+                connectButton.disabled = false;
+                disconnectButton.disabled = true;
+                resetButton.disabled = false;
+                if (!logOutput.textContent.includes('Disconnected')) {
+                    logOutput.textContent += 'Disconnected.\n';
+                }
+            };
+            
+            // --- Data Parsing ---
+            const processLine = (line) => {
+                if (line.includes("STATUS:LED_OK")) {
+                    ledIcon.classList.add('pass');
+                    ledStatus.textContent = 'Pass';
+                } else if (line.includes("STATUS:LORA_OK")) {
+                    loraIcon.classList.add('pass');
+                    loraStatus.textContent = 'Pass';
+                } else if (line.includes("STATUS:LORA_FAIL")) {
+                    loraIcon.classList.add('fail');
+                    loraStatus.textContent = 'Fail';
+                }
+            };
+
+            const readUntilClosed = async () => {
+                const decoder = new TextDecoder();
+                while (port && port.readable && keepReading) {
+                    reader = port.readable.getReader();
+                    try {
+                        while (true) {
+                            const { value, done } = await reader.read();
+                            if (done) break;
+                            
+                            const text = decoder.decode(value, { stream: true });
+                            logOutput.textContent += text;
+                            logOutput.scrollTop = logOutput.scrollHeight;
+
+                            lineBuffer += text;
+                            let lines = lineBuffer.split('\n');
+                            lineBuffer = lines.pop(); // Keep incomplete line
+
+                            lines.forEach(line => processLine(line.trim()));
+                        }
+                    } catch (error) {
+                        logOutput.textContent += `\n[ERROR] ${error.message}\n`;
+                    } finally {
+                        reader.releaseLock();
+                    }
+                }
+                disconnectSerial();
+            };
+
+            // --- Event Listeners ---
+            connectButton.addEventListener('click', connectSerial);
+            disconnectButton.addEventListener('click', disconnectSerial);
+            resetButton.addEventListener('click', resetTestState);
+
+            navigator.serial.addEventListener('disconnect', (event) => {
+                if (port && port === event.target) disconnectSerial();
+            });
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            resetTestState(); // Initial state
+        });
+    </script>
+</body>
+</html>

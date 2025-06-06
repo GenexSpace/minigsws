@@ -1,0 +1,13 @@
+{
+  "name": "TinyGS Main Firmware",
+  "version": "2.3",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "tinygs.bin", "offset": 4096 }
+      ]
+    }
+  ]
+}

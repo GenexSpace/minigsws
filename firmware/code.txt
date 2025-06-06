@@ -1,0 +1,13 @@
+{
+  "name": "Test LED Firmware",
+  "version": "1.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        { "path": "testled.bin", "offset": 4096 }
+      ]
+    }
+  ]
+}
