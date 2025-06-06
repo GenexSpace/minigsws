@@ -180,11 +180,11 @@ flashButtons.forEach(button => {
         try {
             logMsg('Initializing flasher... Ensure ESP32 is in bootloader mode.');
             // ESPLoader's Transport will open the port.
-            transport = new ESPLoaderLib.Transport(device, true); // true for slip_reader_enabled
+            transport = new ESPLoader.Transport(device, true); // true for slip_reader_enabled
 
             const flashBaudRate = parseInt(prompt("Enter Baud Rate for flashing (e.g., 460800, 921600):", "460800"), 10) || 460800;
 
-            esploader = new ESPLoaderLib.ESPLoader({
+            esploader = new ESPLoader.ESPLoader({
                 transport,
                 baudrate: flashBaudRate,
                 romBaudrate: 115200,
@@ -250,8 +250,8 @@ resetEspButton.addEventListener('click', async () => {
     // This re-initializes transport/esploader briefly to send a reset.
     // This is because `esploader.hardReset()` needs an active connection.
     try {
-        const tempTransport = new ESPLoaderLib.Transport(device, true);
-        const tempEsploader = new ESPLoaderLib.ESPLoader({
+        const tempTransport = new ESPLoader.Transport(device, true);
+        const tempEsploader = new ESPLoader.ESPLoader({
             transport: tempTransport,
             baudrate: 115200, // Baud rate doesn't matter much for just reset
             log: (...args) => logMsg(args.join(' ')),
