@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Satellite Ground Station - Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step-content {
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .step.open .step-content {
+            display: block;
+        }
+        .step.open .chevron {
+            transform: rotate(180deg);
+        }
+        .config-input {
+            background-color: #2d3748; /* dark gray */
+            border: 1px solid #4a5568; /* medium gray */
+            color: white;
+        }
+        .config-input::placeholder {
+            color: #a0aec0; /* light gray */
+        }
+        .btn-primary {
+            background-color: #4299e1; /* blue-500 */
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #3182ce; /* blue-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-400 mb-2">Mini Satellite Ground Station</h1>
+            <p class="text-lg text-gray-400">Your Interactive Setup Guide</p>
+        </header>
+
+        <div class="space-y-4">
+
+            <!-- Introduction -->
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h2 class="text-2xl font-bold mb-3 text-blue-300">Welcome, Explorer!</h2>
+                <p class="text-gray-300">This guide will walk you through setting up your Mini Satellite Ground Station. Your station will join a global network called <a href="https://tinygs.com/" target="_blank" class="text-blue-400 hover:underline">TinyGS</a>, allowing you to receive data from LoRa-enabled satellites orbiting Earth. The board provided is pre-flashed with the necessary firmware to get you started.</p>
+                <p class="mt-2 text-gray-400">Your station operates in the 430-436 MHz frequency range.</p>
+            </div>
+
+            <!-- Step 1: Pre-Setup -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                    <div class="flex items-center">
+                        <span class="text-blue-400 font-bold text-2xl mr-4">1</span>
+                        <h3 class="text-xl font-semibold">Pre-Setup: TinyGS Telegram Bot</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <p class="text-gray-300 mb-4">First, you need a Telegram account to communicate with your ground station via the TinyGS bot. This is how you'll get essential credentials.</p>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="https://i.imgur.com/3Z3K8M2.png" alt="TinyGS QR Code" class="w-40 h-40 rounded-lg border-2 border-gray-700">
+                        <div class="flex-1">
+                            <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                <li>If you don't have it, install the Telegram app and create an account.</li>
+                                <li>Scan the QR code to open a chat with the "TinyGS Personal Bot".</li>
+                                <li>In the chat, type <code class="bg-gray-700 p-1 rounded-md text-blue-300">/start</code> and send it.</li>
+                                <li>Next, type <code class="bg-gray-700 p-1 rounded-md text-blue-300">/mqtt</code> and send it. The bot will reply with your unique MQTT credentials.</li>
+                                <li class="text-yellow-400"><strong>Important:</strong> Keep these MQTT credentials safe and ready. You will need them in a later step.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Hardware Setup -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                    <div class="flex items-center">
+                        <span class="text-blue-400 font-bold text-2xl mr-4">2</span>
+                        <h3 class="text-xl font-semibold">Hardware Setup: Location & Antenna</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">A. Find the Perfect Spot</h4>
+                        <p class="text-gray-300">The satellites you'll be tracking are in polar orbit. For the best signal, place your antenna in a location with an unobstructed view of the sky, especially towards the North and South horizons. You'll also need access to a power outlet and a stable Wi-Fi signal.</p>
+                    </div>
+                     <div class="mb-6">
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">B. Assemble the Dipole Antenna</h4>
+                        <p class="text-gray-300 mb-4">Use the provided holder, antennas, and pliers.</p>
+                         <div class="flex flex-col md:flex-row items-center gap-6 bg-gray-700 p-4 rounded-lg">
+                            <!-- SVG Illustration of Antenna Holder -->
+                            <svg width="200" height="150" viewBox="0 0 200 150" class="flex-shrink-0">
+                                <rect x="10" y="10" width="180" height="80" fill="#4A5568" rx="5"/>
+                                <path d="M10 90 L100 140 L 190 90 Z" fill="#4A5568"/>
+                                <!-- 180 Degree Markings -->
+                                <line x1="20" y1="50" x2="50" y2="50" stroke="white" stroke-width="1"/>
+                                <text x="25" y="45" font-size="8" fill="white">180°</text>
+                                <line x1="150" y1="50" x2="180" y2="50" stroke="white" stroke-width="1"/>
+                                <text x="155" y="45" font-size="8" fill="white">180°</text>
+                                <!-- 120 Degree Markings -->
+                                <line x1="50" y1="20" x2="70" y2="30" stroke="white" stroke-width="1"/>
+                                <text x="50" y="15" font-size="8" fill="white">120°</text>
+                                 <line x1="150" y1="20" x2="130" y2="30" stroke="white" stroke-width="1"/>
+                                <text x="135" y="15" font-size="8" fill="white">120°</text>
+                                <circle cx="100" cy="50" r="3" fill="white"/>
+                            </svg>
+                             <ol class="list-decimal list-inside space-y-2 text-gray-300">
+                                <li>Remove the protective film from the acrylic antenna holder.</li>
+                                <li>Unscrew the top nut from one of the antenna mounting points.</li>
+                                <li>Place the ring terminal from the coaxial cable onto the screw, followed by the telescopic antenna.</li>
+                                <li>Hand-tighten the nut. Ensure the antenna makes good contact with the terminal.</li>
+                                <li>Secure the antennas using zip ties at the <strong>180-degree markings</strong> for a standard dipole configuration.</li>
+                                <li>Gently tighten the nuts with pliers. <strong>Do not over-tighten!</strong></li>
+                                <li>Connect the SMA connector from the cable to the SMA port on the receiver board.</li>
+                             </ol>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Software Configuration -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                     <div class="flex items-center">
+                        <span class="text-blue-400 font-bold text-2xl mr-4">3</span>
+                        <h3 class="text-xl font-semibold">Software Configuration</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <p class="text-gray-300 mb-4">Now, let's configure your station to connect to the internet and the TinyGS network.
+                    <br><strong class="text-yellow-400">Crucially, the antenna must be connected BEFORE you power on the board.</strong></p>
+
+                    <ol class="list-decimal list-inside space-y-4 text-gray-300">
+                        <li>Power on the receiver board using the provided USB cable and a standard USB wall adapter. Slide the power switch to ON.</li>
+                        <li>On your phone or laptop, scan for Wi-Fi networks. Connect to the network named <code class="bg-gray-700 p-1 rounded-md text-blue-300">My TinyGS</code>.</li>
+                        <li>Open a web browser and navigate to the address: <a href="http://192.168.4.1" target="_blank" class="text-blue-400 hover:underline">http://192.168.4.1</a></li>
+                        <li>You'll see the TinyGS welcome page. Click on "Configure Parameters".</li>
+                        <li>Fill out the form exactly as described below. This is an interactive simulation of the actual page.</li>
+                    </ol>
+
+                    <!-- Interactive Config Form -->
+                    <div id="config-form" class="mt-6 p-6 bg-gray-700 rounded-lg border border-gray-600">
+                        <h4 class="text-xl font-bold mb-4 text-center text-blue-300">Configuration Portal (Simulation)</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Ground Station Name (e.g., MyFirstStation)" class="config-input w-full p-2 rounded">
+                            <input type="password" placeholder="Station Password (for web access)" class="config-input w-full p-2 rounded">
+                            <input type="text" placeholder="Your Home WiFi SSID" class="config-input w-full p-2 rounded">
+                            <input type="password" placeholder="Your Home WiFi Password" class="config-input w-full p-2 rounded">
+                            <input type="text" placeholder="Latitude (e.g., 12.9716)" class="config-input w-full p-2 rounded">
+                            <input type="text" placeholder="Longitude (e.g., 77.5946)" class="config-input w-full p-2 rounded">
+                            <input type="text" value="Asia/Kolkata" class="config-input w-full p-2 rounded">
+                            <div></div> <!-- Spacer -->
+                             <input type="text" placeholder="MQTT Username (from Telegram bot)" class="config-input w-full p-2 rounded">
+                            <input type="password" placeholder="MQTT Password (from Telegram bot)" class="config-input w-full p-2 rounded">
+                        </div>
+                        <div class="mt-6 bg-gray-800 p-4 rounded-lg">
+                             <h5 class="text-lg font-semibold text-blue-300 mb-3">Board & Radio Settings (Do Not Change)</h5>
+                             <p class="text-sm text-gray-400 mb-2">Ensure the following settings are selected. They are critical for correct operation.</p>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                                <li>Board Type: <code class="bg-gray-700 p-1 rounded-md">433Mhz TTGO LoRa 32 v1</code></li>
+                                <li>Enable TX: <code class="bg-gray-700 p-1 rounded-md">Unchecked</code></li>
+                                <li>Automatic Tunning: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
+                                <li>Automatic Firmware Update: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
+                                <li class="pt-2">Board Template: Paste the exact string provided in the manual.</li>
+                            </ul>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button id="apply-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Apply</button>
+                        </div>
+                         <div id="apply-message" class="hidden mt-4 p-3 text-center bg-green-800 border border-green-600 rounded-lg">
+                            <p>Configuration "saved"! Now, on the real device, go back to the home page and click <strong>Restart Station</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Go Live! -->
+            <div class="step bg-gray-800 rounded-lg">
+                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                    <div class="flex items-center">
+                         <span class="text-blue-400 font-bold text-2xl mr-4">4</span>
+                        <h3 class="text-xl font-semibold">Go Live & Monitor</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <ol class="list-decimal list-inside space-y-4 text-gray-300">
+                        <li>After the station restarts, it will connect to your home Wi-Fi. You should get a notification from the Telegram bot saying your station is online!</li>
+                        <li>Connect your computer back to your home Wi-Fi. You can now access your station's dashboard by finding its IP address (the manual suggests trying 192.168.1.129, but this may vary).</li>
+                        <li>On the dashboard, verify the status. It should look like this:</li>
+                    </ol>
+                    <!-- Mock Dashboard -->
+                     <div class="my-6 p-4 bg-gray-700 rounded-lg text-center">
+                        <h4 class="text-lg font-bold text-blue-300">Station Status Check</h4>
+                        <div class="flex justify-center items-center gap-4 md:gap-8 mt-3">
+                             <div>
+                                <span class="block text-sm text-gray-400">MQTT Server</span>
+                                <span class="block font-bold text-green-400">CONNECTED</span>
+                            </div>
+                            <div>
+                                <span class="block text-sm text-gray-400">WiFi</span>
+                                <span class="block font-bold text-green-400">CONNECTED</span>
+                            </div>
+                             <div>
+                                <span class="block text-sm text-gray-400">Radio</span>
+                                <span class="block font-bold text-green-400">READY</span>
+                            </div>
+                        </div>
+                    </div>
+                     <ol class="list-decimal list-inside space-y-4 text-gray-300" start="4">
+                        <li>If all statuses are green, you're good to go! Power down the station.</li>
+                        <li>Extend each telescopic antenna to exactly <strong class="text-yellow-400">33.8 cm</strong>. This is crucial for tuning to the correct frequency.</li>
+                        <li>Mount your station in its final, high-and-clear location and power it on.</li>
+                        <li>In your Telegram bot, type <code class="bg-gray-700 p-1 rounded-md text-blue-300">/weblogin</code> to get a link to the main TinyGS website where you can monitor your station and see the packets you receive from space!</li>
+                     </ol>
+                </div>
+            </div>
+             <!-- Bonus: Antennas -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400 mr-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd" /></svg>
+                        <h3 class="text-xl font-semibold">Bonus: Antenna Zoo</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <p class="text-gray-300 mb-4">The included dipole is a great start, but the world of antenna design is vast! As you get more experienced, you can build different antennas to improve reception. Each has its own strengths. Here are a few examples:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center">
+                             <img src="https://i.imgur.com/GSoihsV.jpeg" alt="Ground Plane Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <p class="text-sm text-gray-400">Ground Plane</p>
+                        </div>
+                         <div class="text-center">
+                             <img src="https://i.imgur.com/b5tJ1aC.jpeg" alt="QFH Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <p class="text-sm text-gray-400">QFH Antenna</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="https://i.imgur.com/pA8R42m.jpeg" alt="Tape Measure Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <p class="text-sm text-gray-400">Tape Measure Yagi</p>
+                        </div>
+                         <div class="text-center">
+                             <img src="https://i.imgur.com/b9i9S8a.jpeg" alt="Crossed Yagi Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <p class="text-sm text-gray-400">Crossed Yagi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.step-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const step = header.parentElement;
+                step.classList.toggle('open');
+                const content = header.nextElementSibling;
+                if (step.classList.contains('open')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = '0px';
+                }
+            });
+        });
+
+        const applyBtn = document.getElementById('apply-btn');
+        const applyMsg = document.getElementById('apply-message');
+        applyBtn.addEventListener('click', () => {
+            applyMsg.classList.remove('hidden');
+            setTimeout(() => {
+                applyMsg.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
