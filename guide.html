@@ -41,17 +41,25 @@
 <body class="bg-gray-900 text-white">
 
     <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-        <header class="text-center mb-10">
+        <header class="text-center mb-6">
+            <img src="https://genex.space/wp-content/uploads/2023/11/logo-long-01-2048x562.png" alt="Genex Space Logo" class="h-16 w-auto mx-auto mb-6">
             <h1 class="text-4xl md:text-5xl font-bold text-blue-400 mb-2">Mini Satellite Ground Station</h1>
             <p class="text-lg text-gray-400">Your Interactive Setup Guide</p>
         </header>
+
+        <!-- Legal Warning at the top -->
+        <div class="bg-red-900 border-l-4 border-red-500 text-red-100 p-4 rounded-r-lg mb-8" role="alert">
+            <p class="font-bold">Legal Warning: Read Before Proceeding</p>
+            <p class="text-sm">This ground station kit is strictly intended for receive-only operations. Transmission without a valid amateur radio license is prohibited by law in most countries and may result in serious legal consequences, including fines or confiscation of equipment. Genex Space is not responsible for misuse or illegal operation of the hardware.</p>
+        </div>
+
 
         <div class="space-y-4">
 
             <!-- Introduction -->
             <div class="bg-gray-800 rounded-lg p-6">
                 <h2 class="text-2xl font-bold mb-3 text-blue-300">Welcome, Explorer!</h2>
-                <p class="text-gray-300">This guide will walk you through setting up your Mini Satellite Ground Station. Your station will join a global network called <a href="https://tinygs.com/" target="_blank" class="text-blue-400 hover:underline">TinyGS</a>, allowing you to receive data from LoRa-enabled satellites orbiting Earth. The board provided is pre-flashed with the necessary firmware to get you started.</p>
+                <p class="text-gray-300">This guide will walk you through setting up your Mini Satellite Ground Station. Your station will join a global network called TinyGS, allowing you to receive data from LoRa-enabled satellites orbiting Earth. The board provided is pre-flashed with the necessary firmware, but you can follow the steps below if you need to re-install it.</p>
                 <p class="mt-2 text-gray-400">Your station operates in the 430-436 MHz frequency range.</p>
             </div>
 
@@ -86,54 +94,45 @@
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
                         <span class="text-blue-400 font-bold text-2xl mr-4">2</span>
-                        <h3 class="text-xl font-semibold">Hardware Setup: Location & Antenna</h3>
+                        <h3 class="text-xl font-semibold">Hardware Setup: Location</h3>
                     </div>
                     <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="step-content px-6 pb-6">
                     <div class="mb-6">
-                        <h4 class="text-lg font-semibold text-blue-300 mb-2">A. Find the Perfect Spot</h4>
+                        <h4 class="text-lg font-semibold text-blue-300 mb-2">Find the Perfect Spot</h4>
                         <p class="text-gray-300">The satellites you'll be tracking are in polar orbit. For the best signal, place your antenna in a location with an unobstructed view of the sky, especially towards the North and South horizons. You'll also need access to a power outlet and a stable Wi-Fi signal.</p>
-                    </div>
-                     <div class="mb-6">
-                        <h4 class="text-lg font-semibold text-blue-300 mb-2">B. Assemble the Dipole Antenna</h4>
-                        <p class="text-gray-300 mb-4">Use the provided holder, antennas, and pliers.</p>
-                         <div class="flex flex-col md:flex-row items-center gap-6 bg-gray-700 p-4 rounded-lg">
-                            <!-- SVG Illustration of Antenna Holder -->
-                            <svg width="200" height="150" viewBox="0 0 200 150" class="flex-shrink-0">
-                                <rect x="10" y="10" width="180" height="80" fill="#4A5568" rx="5"/>
-                                <path d="M10 90 L100 140 L 190 90 Z" fill="#4A5568"/>
-                                <!-- 180 Degree Markings -->
-                                <line x1="20" y1="50" x2="50" y2="50" stroke="white" stroke-width="1"/>
-                                <text x="25" y="45" font-size="8" fill="white">180°</text>
-                                <line x1="150" y1="50" x2="180" y2="50" stroke="white" stroke-width="1"/>
-                                <text x="155" y="45" font-size="8" fill="white">180°</text>
-                                <!-- 120 Degree Markings -->
-                                <line x1="50" y1="20" x2="70" y2="30" stroke="white" stroke-width="1"/>
-                                <text x="50" y="15" font-size="8" fill="white">120°</text>
-                                 <line x1="150" y1="20" x2="130" y2="30" stroke="white" stroke-width="1"/>
-                                <text x="135" y="15" font-size="8" fill="white">120°</text>
-                                <circle cx="100" cy="50" r="3" fill="white"/>
-                            </svg>
-                             <ol class="list-decimal list-inside space-y-2 text-gray-300">
-                                <li>Remove the protective film from the acrylic antenna holder.</li>
-                                <li>Unscrew the top nut from one of the antenna mounting points.</li>
-                                <li>Place the ring terminal from the coaxial cable onto the screw, followed by the telescopic antenna.</li>
-                                <li>Hand-tighten the nut. Ensure the antenna makes good contact with the terminal.</li>
-                                <li>Secure the antennas using zip ties at the <strong>180-degree markings</strong> for a standard dipole configuration.</li>
-                                <li>Gently tighten the nuts with pliers. <strong>Do not over-tighten!</strong></li>
-                                <li>Connect the SMA connector from the cable to the SMA port on the receiver board.</li>
-                             </ol>
-                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Software Configuration -->
+            <!-- Step 3: Firmware Installation -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                      <div class="flex items-center">
                         <span class="text-blue-400 font-bold text-2xl mr-4">3</span>
+                        <h3 class="text-xl font-semibold">Firmware Installation (If Needed)</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <p class="text-gray-300 mb-4">If you ever need to re-install the firmware, follow these simple steps.</p>
+                    <ol class="list-decimal list-inside space-y-4 text-gray-300">
+                        <li>Press and hold the <strong class="text-yellow-400">"BOOT"</strong> button on the receiver board.</li>
+                        <li>While still holding the BOOT button, connect the board to your computer with the USB cable. You can release the button after it's connected.</li>
+                        <li>Open a web browser (like Chrome or Edge) and go to: <a href="https://installer.tinygs.com" target="_blank" class="text-blue-400 hover:underline">installer.tinygs.com</a></li>
+                        <li>Select the correct firmware for your board (e.g., "TTGO LoRa32 V1 433 Mhz").</li>
+                        <li>Click the "Install" button and follow the on-screen prompts to select your device's COM port.</li>
+                        <li>Wait for the installation process to complete. You'll see a success message when it's done.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Step 4: Software Configuration -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                     <div class="flex items-center">
+                        <span class="text-blue-400 font-bold text-2xl mr-4">4</span>
                         <h3 class="text-xl font-semibold">Software Configuration</h3>
                     </div>
                     <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -186,11 +185,11 @@
                 </div>
             </div>
 
-            <!-- Step 4: Go Live! -->
+            <!-- Step 5: Go Live! -->
             <div class="step bg-gray-800 rounded-lg">
                  <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
-                         <span class="text-blue-400 font-bold text-2xl mr-4">4</span>
+                         <span class="text-blue-400 font-bold text-2xl mr-4">5</span>
                         <h3 class="text-xl font-semibold">Go Live & Monitor</h3>
                     </div>
                     <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -227,6 +226,34 @@
                      </ol>
                 </div>
             </div>
+
+            <!-- Tips and Cautions -->
+            <div class="step bg-gray-800 rounded-lg">
+                <div class="step-header flex justify-between items-center p-6 cursor-pointer">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400 mr-4" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M8.257 3.099c.636-1.214 2.43-1.214 3.066 0l6.877 13.136c.636 1.214-.26 2.765-1.533 2.765H2.913c-1.273 0-2.169-1.551-1.533-2.765L8.257 3.099zM9 13a1 1 0 112 0 1 1 0 01-2 0zm1-4a1 1 0 00-1 1v2a1 1 0 102 0V10a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        <h3 class="text-xl font-semibold">Important Tips & Cautions</h3>
+                    </div>
+                    <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div class="step-content px-6 pb-6">
+                    <ul class="list-disc list-inside space-y-3 text-gray-300">
+                        <li>⚠️ <strong class="text-yellow-400">Never transmit without a valid amateur radio license.</strong> Transmission without authorization is illegal in many jurisdictions and can interfere with critical communication systems.</li>
+                        <li>Ensure that the antenna is <strong class="text-yellow-400">always connected before powering on</strong> the ground station. Operating the radio without an antenna can damage the RF circuitry.</li>
+                        <li>Avoid placing the antenna near metal objects such as grills, window bars, or metal poles. These can interfere with reception and detune the antenna.</li>
+                        <li>Install the ground station in a location with maximum sky visibility, away from buildings, walls, or trees that can obstruct the satellite signal path.</li>
+                        <li>Keep the unit protected from direct rain or excessive humidity. While outdoor use is encouraged, weatherproofing the installation is recommended.</li>
+                        <li>Do not power the board from unstable power sources, such as USB ports on old laptops or power banks with poor regulation. Use a stable 5V USB adapter.</li>
+                        <li>Always check the antenna connections for tightness and integrity. Loose U.FL or SMA connectors can cause signal loss.</li>
+                        <li>Avoid handling the receiver board while powered, especially near the antenna connection, to reduce risk of electrostatic damage or short circuits.</li>
+                        <li>If making custom firmware changes, ensure you back up current configurations and test carefully before uploading.</li>
+                        <li>Regularly inspect the antenna for bends or corrosion that may impact performance.</li>
+                    </ul>
+                </div>
+            </div>
+
              <!-- Bonus: Antennas -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
@@ -260,6 +287,10 @@
             </div>
 
         </div>
+        
+        <footer class="text-center mt-10 pt-6 border-t border-gray-700">
+            <p class="text-sm text-gray-500">&copy; 2024 Genex Space. All Rights Reserved.</p>
+        </footer>
     </div>
 
     <script>
