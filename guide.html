@@ -36,6 +36,15 @@
         .btn-primary:hover {
             background-color: #3182ce; /* blue-600 */
         }
+        .code-block {
+            background-color: #1a202c;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -47,7 +56,6 @@
             <p class="text-lg text-gray-400">Your Interactive Setup Guide</p>
         </header>
 
-        <!-- Legal Warning at the top -->
         <div class="bg-red-900 border-l-4 border-red-500 text-red-100 p-4 rounded-r-lg mb-8" role="alert">
             <p class="font-bold">Legal Warning: Read Before Proceeding</p>
             <p class="text-sm">This ground station kit is strictly intended for receive-only operations. Transmission without a valid amateur radio license is prohibited by law in most countries and may result in serious legal consequences, including fines or confiscation of equipment. Genex Space is not responsible for misuse or illegal operation of the hardware.</p>
@@ -56,14 +64,12 @@
 
         <div class="space-y-4">
 
-            <!-- Introduction -->
             <div class="bg-gray-800 rounded-lg p-6">
                 <h2 class="text-2xl font-bold mb-3 text-blue-300">Welcome, Explorer!</h2>
-                <p class="text-gray-300">This guide will walk you through setting up your Mini Satellite Ground Station. Your station will join a global network called TinyGS, allowing you to receive data from LoRa-enabled satellites orbiting Earth. The board provided is pre-flashed with the necessary firmware, but you can follow the steps below if you need to re-install it.</p>
+                <p class="text-gray-300">This guide will walk you through setting up your Mini Satellite Ground Station. Your station will join a global network called TinyGS, allowing you to receive data from LoRa-enabled satellites orbiting Earth. You must first install the firmware on your board by following the steps below.</p>
                 <p class="mt-2 text-gray-400">Your station operates in the 430-436 MHz frequency range.</p>
             </div>
 
-            <!-- Step 1: Pre-Setup -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
@@ -89,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Step 2: Hardware Setup -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
@@ -106,29 +111,26 @@
                 </div>
             </div>
 
-            <!-- Step 3: Firmware Installation -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                      <div class="flex items-center">
                         <span class="text-blue-400 font-bold text-2xl mr-4">3</span>
-                        <h3 class="text-xl font-semibold">Firmware Installation (If Needed)</h3>
+                        <h3 class="text-xl font-semibold">Firmware Installation</h3>
                     </div>
                     <svg class="chevron w-6 h-6 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="step-content px-6 pb-6">
-                    <p class="text-gray-300 mb-4">If you ever need to re-install the firmware, follow these simple steps.</p>
+                    <p class="text-gray-300 mb-4">You must install the firmware on your board. Follow these simple steps using the web installer.</p>
                     <ol class="list-decimal list-inside space-y-4 text-gray-300">
                         <li>Press and hold the <strong class="text-yellow-400">"BOOT"</strong> button on the receiver board.</li>
                         <li>While still holding the BOOT button, connect the board to your computer with the USB cable. You can release the button after it's connected.</li>
                         <li>Open a web browser (like Chrome or Edge) and go to: <a href="https://installer.tinygs.com" target="_blank" class="text-blue-400 hover:underline">installer.tinygs.com</a></li>
-                        <li>Select the correct firmware for your board (e.g., "TTGO LoRa32 V1 433 Mhz").</li>
                         <li>Click the "Install" button and follow the on-screen prompts to select your device's COM port.</li>
                         <li>Wait for the installation process to complete. You'll see a success message when it's done.</li>
                     </ol>
                 </div>
             </div>
 
-            <!-- Step 4: Software Configuration -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                      <div class="flex items-center">
@@ -149,7 +151,6 @@
                         <li>Fill out the form exactly as described below. This is an interactive simulation of the actual page.</li>
                     </ol>
 
-                    <!-- Interactive Config Form -->
                     <div id="config-form" class="mt-6 p-6 bg-gray-700 rounded-lg border border-gray-600">
                         <h4 class="text-xl font-bold mb-4 text-center text-blue-300">Configuration Portal (Simulation)</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -161,18 +162,20 @@
                             <input type="text" placeholder="Longitude (e.g., 77.5946)" class="config-input w-full p-2 rounded">
                             <input type="text" value="Asia/Kolkata" class="config-input w-full p-2 rounded">
                             <div></div> <!-- Spacer -->
-                             <input type="text" placeholder="MQTT Username (from Telegram bot)" class="config-input w-full p-2 rounded">
+                            <input type="text" placeholder="MQTT Username (from Telegram bot)" class="config-input w-full p-2 rounded">
                             <input type="password" placeholder="MQTT Password (from Telegram bot)" class="config-input w-full p-2 rounded">
                         </div>
                         <div class="mt-6 bg-gray-800 p-4 rounded-lg">
-                             <h5 class="text-lg font-semibold text-blue-300 mb-3">Board & Radio Settings (Do Not Change)</h5>
+                             <h5 class="text-lg font-semibold text-blue-300 mb-3">Board & Radio Settings</h5>
                              <p class="text-sm text-gray-400 mb-2">Ensure the following settings are selected. They are critical for correct operation.</p>
-                            <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
-                                <li>Board Type: <code class="bg-gray-700 p-1 rounded-md">433Mhz TTGO LoRa 32 v1</code></li>
-                                <li>Enable TX: <code class="bg-gray-700 p-1 rounded-md">Unchecked</code></li>
-                                <li>Automatic Tunning: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
-                                <li>Automatic Firmware Update: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
-                                <li class="pt-2">Board Template: Paste the exact string provided in the manual.</li>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2 text-sm">
+                                <li>From the Board Type dropdown, select <code class="bg-gray-700 p-1 rounded-md">custom board</code>.</li>
+                                <li>Ensure Enable TX is: <code class="bg-gray-700 p-1 rounded-md">Unchecked</code></li>
+                                <li>Ensure Automatic Tunning is: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
+                                <li>Ensure Automatic Firmware Update is: <code class="bg-gray-700 p-1 rounded-md">Checked</code></li>
+                                <li class="pt-2">Board Template: Paste the following exact string into the template field:
+                                    <div class="code-block text-white">{"name":"[433] esp32 LoRa","aADDR":60,"oSDA":21,"oSCL":22,"oRST":16,"pBut":0,"led":25,"radio":1,"lNSS":5,"lDIO0":26,"lDIO1":27,"lBUSSY":0,"lRST":14,"lMISO":19,"lMOSI":23,"lSCK":18,"lTCXOV":0.0}</div>
+                                </li>
                             </ul>
                         </div>
                         <div class="text-center mt-6">
@@ -185,7 +188,6 @@
                 </div>
             </div>
 
-            <!-- Step 5: Go Live! -->
             <div class="step bg-gray-800 rounded-lg">
                  <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
@@ -200,8 +202,7 @@
                         <li>Connect your computer back to your home Wi-Fi. You can now access your station's dashboard by finding its IP address (the manual suggests trying 192.168.1.129, but this may vary).</li>
                         <li>On the dashboard, verify the status. It should look like this:</li>
                     </ol>
-                    <!-- Mock Dashboard -->
-                     <div class="my-6 p-4 bg-gray-700 rounded-lg text-center">
+                    <div class="my-6 p-4 bg-gray-700 rounded-lg text-center">
                         <h4 class="text-lg font-bold text-blue-300">Station Status Check</h4>
                         <div class="flex justify-center items-center gap-4 md:gap-8 mt-3">
                              <div>
@@ -227,7 +228,6 @@
                 </div>
             </div>
 
-            <!-- Tips and Cautions -->
             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
@@ -254,8 +254,7 @@
                 </div>
             </div>
 
-             <!-- Bonus: Antennas -->
-            <div class="step bg-gray-800 rounded-lg">
+             <div class="step bg-gray-800 rounded-lg">
                 <div class="step-header flex justify-between items-center p-6 cursor-pointer">
                     <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400 mr-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd" /></svg>
@@ -267,20 +266,20 @@
                     <p class="text-gray-300 mb-4">The included dipole is a great start, but the world of antenna design is vast! As you get more experienced, you can build different antennas to improve reception. Each has its own strengths. Here are a few examples:</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="text-center">
-                             <img src="https://i.imgur.com/GSoihsV.jpeg" alt="Ground Plane Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                             <img src="ground-plane-antenna.jpg" alt="Ground Plane Antenna" class="rounded-lg mb-2 aspect-square object-cover">
                             <p class="text-sm text-gray-400">Ground Plane</p>
                         </div>
                          <div class="text-center">
-                             <img src="https://i.imgur.com/b5tJ1aC.jpeg" alt="QFH Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                             <img src="P1040926-e1478371701694.jpg" alt="QFH Antenna" class="rounded-lg mb-2 aspect-square object-cover">
                             <p class="text-sm text-gray-400">QFH Antenna</p>
                         </div>
                         <div class="text-center">
-                            <img src="https://i.imgur.com/pA8R42m.jpeg" alt="Tape Measure Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <img src="600px-YagiFinal-600x372.jpg" alt="Tape Measure Antenna" class="rounded-lg mb-2 aspect-square object-cover">
                             <p class="text-sm text-gray-400">Tape Measure Yagi</p>
                         </div>
                          <div class="text-center">
-                             <img src="https://i.imgur.com/b9i9S8a.jpeg" alt="Crossed Yagi Antenna" class="rounded-lg mb-2 aspect-square object-cover">
-                            <p class="text-sm text-gray-400">Crossed Yagi</p>
+                             <img src="81KQfOUMdOL._AC_UF1000,1000_QL80_.jpg" alt="Crossed Yagi Antenna" class="rounded-lg mb-2 aspect-square object-cover">
+                            <p class="text-sm text-gray-400">J-POLE</p>
                         </div>
                     </div>
                 </div>
