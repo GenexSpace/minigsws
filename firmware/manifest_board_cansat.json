@@ -1,6 +1,6 @@
 {
-  "name": "CanSat Eg Code (Full Install)",
-  "version": "1.1A",
+  "name": "CanSat DEMO",
+  "version": "1.1B",
   "new_install_prompt_erase": true,
   "builds": [
     {
